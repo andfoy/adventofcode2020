@@ -51,10 +51,7 @@ defmodule AdventOfCode.Day2 do
       end)
 
     part1 = check_password_count(lines, 0)
-    :logger.debug("Part 1: #{inspect(part1)}")
-
     part2 = check_password_position(lines, 0)
-    :logger.debug("Part 2: #{inspect(part2)}")
 
     {part1, part2}
   end
