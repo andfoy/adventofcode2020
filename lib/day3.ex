@@ -1,51 +1,46 @@
 defmodule AdventOfCode.Day3 do
-  def count_trees(map_lines, slope \\ 3) do
+  @spec count_trees([binary], integer, integer | nil) :: {integer, integer, boolean}
+  def count_trees(map_lines, slope \\ 3, starting_pos \\ nil) do
     [first_line | _] = map_lines
     num_cols = String.length(first_line)
 
+    starting_pos =
+      case starting_pos do
+        nil -> slope
+        _ -> starting_pos
+      end
+
     map_lines
-    |> Enum.chunk_every(Integer.floor_div(num_cols + 1, slope))
-    |> Enum.reduce({0, 0, true}, fn line_group, {count, off, first} ->
-      # :logger.debug("Starting offset: #{inspect off}")
-      {count, prev_pos, first} =
-        Enum.reduce(line_group, {count, slope - off, first}, fn cur_line,
-                                                                {count, position, first} ->
-          case first do
-            true ->
-              {count, position, false}
+    |> Enum.reduce({0, starting_pos, true}, fn line, {count, pos, first} ->
+      case first do
+        true ->
+          {count, pos, false}
 
-            false ->
-              # :logger.debug("#{inspect cur_line} #{position}")
-              # :logger.debug("#{inspect String.at(cur_line, position)}")
-              new_count =
-                case String.at(cur_line, position) do
-                  "#" ->
-                    count + 1
+        false ->
+          new_count =
+            case String.at(line, pos) do
+              "#" ->
+                count + 1
 
-                  _ ->
-                    count
-                end
+              _ ->
+                count
+            end
 
-              {new_count, position + slope, first}
-          end
-        end)
-
-      # :logger.debug("Group end pos #{inspect prev_pos - slope + 1} / #{inspect num_cols}")
-      new_off = rem(num_cols - prev_pos + slope, num_cols)
-      # :logger.debug("Leftover offset #{inspect new_off}")
-      {count, new_off, first}
+          {new_count, rem(pos + slope, num_cols), first}
+      end
     end)
   end
 
+  @spec day3 :: {number, number}
   def day3() do
     map_lines =
       "day3_input"
       |> AdventOfCode.read_file()
 
     {part1, _, _} = count_trees(map_lines)
-    :logger.debug("Part1: #{inspect(part1)}")
+    :logger.debug("Part 1: #{inspect(part1)}")
 
-    {slope1, _, _} = count_trees(map_lines, 1)
+    {slope1, _, _} = count_trees(map_lines, 1, 2)
     {slope5, _, _} = count_trees(map_lines, 5)
     {slope7, _, _} = count_trees(map_lines, 7)
 
@@ -54,6 +49,9 @@ defmodule AdventOfCode.Day3 do
       |> Enum.take_every(2)
       |> count_trees(1)
 
+    :logger.debug("#{part1} * #{slope1} * #{slope2} * #{slope5} * #{slope7}")
     part2 = part1 * slope1 * slope2 * slope5 * slope7
+    :logger.debug("Part 2: #{inspect(part2)}")
+    {part1, part2}
   end
 end
