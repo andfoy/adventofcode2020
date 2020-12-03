@@ -38,7 +38,7 @@ defmodule AdventOfCode.Day3 do
       |> AdventOfCode.read_file()
 
     {part1, _, _} = count_trees(map_lines)
-    :logger.debug("Part 1: #{inspect(part1)}")
+    # :logger.debug("Part 1: #{inspect(part1)}")
 
     {slope1, _, _} = count_trees(map_lines, 1, 2)
     {slope5, _, _} = count_trees(map_lines, 5)
@@ -49,9 +49,9 @@ defmodule AdventOfCode.Day3 do
       |> Enum.take_every(2)
       |> count_trees(1)
 
-    :logger.debug("#{part1} * #{slope1} * #{slope2} * #{slope5} * #{slope7}")
+    # :logger.debug("#{part1} * #{slope1} * #{slope2} * #{slope5} * #{slope7}")
     part2 = part1 * slope1 * slope2 * slope5 * slope7
-    :logger.debug("Part 2: #{inspect(part2)}")
+    # :logger.debug("Part 2: #{inspect(part2)}")
     {part1, part2}
   end
 end
