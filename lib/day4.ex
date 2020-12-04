@@ -54,9 +54,6 @@ defmodule AdventOfCode.Day4 do
   @spec parse_passport_id(binary) :: boolean
   def parse_passport_id(pass_id) do
     pass_id_regex = ~r/^\d{9}$/
-    # id_length_valid = String.length(pass_id) == 9
-    # id_is_number = parse_integer(pass_id)
-    # id_length_valid and id_is_number
     String.match?(pass_id, pass_id_regex)
   end
 
