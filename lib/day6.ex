@@ -1,4 +1,5 @@
 defmodule AdventOfCode.Day6 do
+  @spec day6 :: {[{MapSet.t(), MapSet.t()}], {integer, integer}}
   def day6() do
     "day6_input"
     |> AdventOfCode.read_file()
