@@ -74,25 +74,24 @@ defmodule AdventOfCode.Day7 do
     {_, graph} =
       "day7_input"
       |> AdventOfCode.read_file()
-      |> Enum.map_reduce(
-        :digraph.new(),
-        fn entry, graph ->
-          components =
-            entry
-            |> String.split()
-            |> Enum.map(&convert_atom_integer/1)
+      |> Enum.map_reduce(:digraph.new(), fn entry, graph ->
+        components =
+          entry
+          |> String.split()
+          |> Enum.map(&convert_atom_integer/1)
 
-          [adjective, color, :bags, :contain | contents] = components
-          this_node = {adjective, color}
+        [adjective, color, :bags, :contain | contents] = components
+        this_node = {adjective, color}
 
-          graph = parse_contents(this_node, graph, contents)
+        graph = parse_contents(this_node, graph, contents)
+        {contents, graph}
+      end)
 
-          {contents, graph}
-        end
-      )
+    part1 =
+      graph
+      |> gold_closure()
+      |> length()
 
-    gold_closure = gold_closure(graph)
-    part1 = length(gold_closure)
     part2 = count_bags_closure(graph, {:shiny, :gold})
     {part1, part2}
   end
