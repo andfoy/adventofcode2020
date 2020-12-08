@@ -78,6 +78,7 @@ defmodule AdventOfCode.Day7 do
     count_bags(graph, edges, count)
   end
 
+  @spec day7 :: {non_neg_integer, integer}
   def day7() do
     {_, graph} =
       "day7_input"
