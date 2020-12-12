@@ -39,7 +39,7 @@ defmodule AdventOfCode.Day10 do
     build_adjacency_matrix(adapters, row + 1, col + 1, mat)
   end
 
-  @spec find_adapter_combination([integer]) :: float
+  @spec find_adapter_combination([integer]) :: {Matrex.t(), float}
   def find_adapter_combination(adapters) do
     mat = Matrex.zeros(length(adapters))
     adj = build_adjacency_matrix(adapters, 1, 2, mat)
